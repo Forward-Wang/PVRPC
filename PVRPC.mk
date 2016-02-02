@@ -62,7 +62,7 @@ AS       := C:/MinGW/bin/as.exe
 ## User defined environment variables
 ##
 CodeLiteDir:=C:\Program Files\CodeLite
-Objects0=$(IntermediateDirectory)/main.cpp$(ObjectSuffix) 
+Objects0=$(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IntermediateDirectory)/outputformat.cpp$(ObjectSuffix) 
 
 
 
@@ -100,6 +100,14 @@ $(IntermediateDirectory)/main.cpp$(DependSuffix): main.cpp
 
 $(IntermediateDirectory)/main.cpp$(PreprocessSuffix): main.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/main.cpp$(PreprocessSuffix) "main.cpp"
+
+$(IntermediateDirectory)/outputformat.cpp$(ObjectSuffix): outputformat.cpp $(IntermediateDirectory)/outputformat.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/onur/Documents/cpp/PVRPC/outputformat.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/outputformat.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/outputformat.cpp$(DependSuffix): outputformat.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/outputformat.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/outputformat.cpp$(DependSuffix) -MM "outputformat.cpp"
+
+$(IntermediateDirectory)/outputformat.cpp$(PreprocessSuffix): outputformat.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/outputformat.cpp$(PreprocessSuffix) "outputformat.cpp"
 
 
 -include $(IntermediateDirectory)/*$(DependSuffix)

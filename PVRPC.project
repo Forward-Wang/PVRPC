@@ -92,5 +92,9 @@
   </Settings>
   <VirtualDirectory Name="src">
     <File Name="main.cpp"/>
+    <File Name="vehicle.h"/>
+    <File Name="customer.h"/>
+    <File Name="instance.h"/>
+    <File Name="outputformat.cpp"/>
   </VirtualDirectory>
 </CodeLite_Project>
