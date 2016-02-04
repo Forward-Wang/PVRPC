@@ -8,28 +8,10 @@
 #include <customer.h>
 #include <vehicle.h>
 #include <instance.h>
+#include <solver.h>
 #include <cmath>
 using namespace std;
 
-double distance(Customer *a, Customer *b)
-{
-	return sqrt(((a->x - b->x)*(a->x - b->x)) + ((a->y - b->y)*(a->y - b->y)));
-}
-
-void instanceToFile(Instance *instance)
-{
-	stringstream id;
-	id<<instance->id;
-	string filename = "p" + id.str() + ".txt";
-	ofstream output;
-	output.open(filename.c_str());
-	output<<instance->type<<" "<<instance->m<<" "<<instance->n<<" "<<instance->t<<endl;
-	for(int i=0; i<instance->m; i++)
-		output<<instance->trucks[i].D<<" "<<instance->trucks[i].Q<<endl;
-	for(int i=0; i<instance->m; i++)
-		output<<instance->presellers[i].D<<" "<<instance->presellers[i].Q<<endl;
-		
-}
 
 int main () {
 	
@@ -47,31 +29,45 @@ int main () {
 		string filename = "p" + id.str() + ".txt";
 		input = fopen(filename.c_str(), "r");
 		fscanf(input, "%d %d %d %d\n", &type, &m, &n, &t);
-		printf("%d %d %d %d\n", type, m, n, t);
-		system("pause");
+//		printf("%d %d %d %d\n", type, m, n, t);
+//		system("pause");
 		instances[j] = createInstance(j+1, type, m, n, t);
 		for(int k=0; k<m; k++)
-			fscanf(input, "%d %d\n", &instances[j]->trucks[k].D, &instances[j]->trucks[k].Q); // read ith instance's jth truck's D and Q
-		for(int k=m; k<2*m; k++)
-			fscanf(input, "%d %d\n", &instances[j]->presellers[k].D, &instances[j]->presellers[k].Q); // read ith instance's jth preseller's D and Q
+		{
+			int D, Q;
+			fscanf(input, "%d %d\n", &D, &Q); // read ith instance's jth truck's D and Q
+			instances[j]->trucks[k] = createTruck(k+1, D, Q, t);
+		}
+
+		for(int k=0; k<m; k++)
+		{
+			int D, Q;
+			fscanf(input, "%d %d\n", &D, &Q); // read ith instance's jth preseller's D and Q
+			instances[j]->presellers[k] = createPreseller(k+1, D, Q, t);
+		}
+		
 		fscanf(input, "%d\t%f\t%f\t%d %d %d %d\n", &i, &x, &y, &d, &q, &f, &a);
-		printf("%d %f %f %d %d %d %d\n", i, x, y, d, q, f, a);
-		system("pause");
-		instances[j]->depot = createCustomer(i,x,y,d,q,f,a);
-		for(int k=1; k<n-1; k++)
+		instances[j]->customers[0] = createCustomer(i,x,y,d,q,f,a);
+		for(int k=1; k<n; k++)
 		{
 			fscanf(input, "%d %f %f %d %d %d %d\n", &i, &x, &y, &d, &q, &f, &a);
-			printf("%d %f %f %d %d %d %d\n", i, x, y, d, q, f, a);
-			printf("reading customer %d\n", k);
-			system("pause");
 			instances[j]->customers[k] = createCustomer(i,x,y,d,q,f,a);
+//			printf("reading list:\n");
 			for(int l=0; l<a; l++)
-				fscanf(input, "%d ", &instances[j]->customers[k]->list[l]);
+			{
+				int tmp;
+				fscanf(input, "%d ", &tmp);
+				instances[j]->customers[k]->list[l] = tmp;
+				
+			}
 		}
 		fclose(input);
 	}
-		
 	
+	
+	
+	printInstance(instances[1]);
+	solveInstance(instances[1]);
 	
 
 }

@@ -96,5 +96,6 @@
     <File Name="customer.h"/>
     <File Name="instance.h"/>
     <File Name="outputformat.cpp"/>
+    <File Name="solver.h"/>
   </VirtualDirectory>
 </CodeLite_Project>
