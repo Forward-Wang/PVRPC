@@ -1,8 +1,10 @@
 #pragma once
 
 #include <cstdlib>
+#include <cmath>
 
 using namespace std;
+
 typedef struct Customer
 {
 	int i;
@@ -13,6 +15,8 @@ typedef struct Customer
 
 void printCustomer(Customer *customer)
 {
+	cout<<"printing customer ";
+	cout<<customer->i<<endl;
 	printf("%d\t%.2f\t%.2f %d %d %d %d\t\t", customer->i, customer->x, customer->y, customer->d, customer->q, customer->f, customer->a);
 	for(int i=0; i<customer->a; i++)
 		printf("%d ", customer->list[i]);
@@ -30,12 +34,7 @@ Customer *createCustomer(int i, float x, float y, int d, int q, int f, int a)
 	customer->f = f;
 	customer->a = a;
 	customer->list = new int[a];
-//	printf("Customer created:\n");
-//	printf("%d\t%.2f\t%.2f %d %d %d %d\n", i, x, y, d, q, f, a);
-//	printf("%d\t%.2f\t%.2f %d %d %d %d\n", customer->i, customer->x, customer->y, customer->d, customer->q, customer->f, customer->a);
 	
-//	printCustomer(customer);
-
 	return customer;
 }
 

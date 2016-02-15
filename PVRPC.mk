@@ -5,15 +5,15 @@
 ## Debug
 ProjectName            :=PVRPC
 ConfigurationName      :=Debug
-WorkspacePath          := "C:\Users\Onur\Documents\workspace"
-ProjectPath            := "C:\Users\Onur\Documents\workspace\PVRPC"
+WorkspacePath          := "C:\Users\onur\Documents\cpp"
+ProjectPath            := "C:\Users\onur\Documents\cpp\PVRPC"
 IntermediateDirectory  :=./Debug
 OutDir                 := $(IntermediateDirectory)
 CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
-User                   :=Onur
-Date                   :=04/02/2016
+User                   :=onur
+Date                   :=15/02/2016
 CodeLitePath           :="C:\Program Files\CodeLite"
 LinkerName             :=C:/MinGW/bin/g++.exe
 SharedObjectLinkerName :=C:/MinGW/bin/g++.exe -shared -fPIC
@@ -94,7 +94,7 @@ PreBuild:
 ## Objects
 ##
 $(IntermediateDirectory)/main.cpp$(ObjectSuffix): main.cpp $(IntermediateDirectory)/main.cpp$(DependSuffix)
-	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Onur/Documents/workspace/PVRPC/main.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IncludePath)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/onur/Documents/cpp/PVRPC/main.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/main.cpp$(DependSuffix): main.cpp
 	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/main.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/main.cpp$(DependSuffix) -MM "main.cpp"
 
@@ -102,7 +102,7 @@ $(IntermediateDirectory)/main.cpp$(PreprocessSuffix): main.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/main.cpp$(PreprocessSuffix) "main.cpp"
 
 $(IntermediateDirectory)/outputformat.cpp$(ObjectSuffix): outputformat.cpp $(IntermediateDirectory)/outputformat.cpp$(DependSuffix)
-	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/Onur/Documents/workspace/PVRPC/outputformat.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/outputformat.cpp$(ObjectSuffix) $(IncludePath)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "C:/Users/onur/Documents/cpp/PVRPC/outputformat.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/outputformat.cpp$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/outputformat.cpp$(DependSuffix): outputformat.cpp
 	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/outputformat.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/outputformat.cpp$(DependSuffix) -MM "outputformat.cpp"
 

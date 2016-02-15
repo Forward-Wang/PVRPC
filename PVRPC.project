@@ -95,7 +95,9 @@
     <File Name="vehicle.h"/>
     <File Name="customer.h"/>
     <File Name="instance.h"/>
-    <File Name="outputformat.cpp"/>
+    <File Name="outputformat.cpp" ExcludeProjConfig=""/>
     <File Name="solver.h"/>
+    <File Name="schedule.h"/>
+    <File Name="fileparser.h"/>
   </VirtualDirectory>
 </CodeLite_Project>
