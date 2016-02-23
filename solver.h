@@ -51,24 +51,6 @@ void solveInstance(Instance *instance)
 	for(int i=0; i<instance->n-1; i++) // exclude the depot. that is wyh i<n-1
 	{
 		nextPossible = nextPossible % instance->customers[i]->a; // take the modulo of nextPossible w.r.t. list size of customer i
-		/*if(cycle)
-		{
-			vehicle++;// = vehicle % instance->m; // take the modulo of vehicle counter w.r.t. number of vehicles.
-			if(vehicle >= instance->m)
-			{
-				cycle = false;
-				vehicle--;
-			}
-		}
-		else
-		{
-			vehicle--;
-			if(vehicle <= -1)
-			{
-				cycle = true;
-				vehicle++;
-			}
-		}*/
 		char *days = decToBin(instance->customers[i]->list[nextPossible], instance->t); // convert next possible schedule to binary
 		for(int day=0; day<instance->t; day++)
 		{

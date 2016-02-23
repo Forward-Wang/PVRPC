@@ -21,8 +21,8 @@ int main ()
 	const int nbInstances = 42;
 	for(int i=1; i<=nbInstances; i++)
 	{
-		Instance *instance = readFromFileOldFormat(inputPrefix, i); // read instance from file
-		printToFile(instance, "ins", i);
+		Instance *instance = readFromFileNewFormat(inputPrefix, i); // read instance from file
+		solveInstance(instance);
 	}
 }
 	

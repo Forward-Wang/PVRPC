@@ -100,7 +100,7 @@ Instance *readFromFileOldFormat(const char *prefix, int instanceId)
 	return instance;
 }
 
-Instance *readFromFileOldFormat(const char *prefix, int instanceId)
+Instance *readFromFileNewFormat(const char *prefix, int instanceId)
 {
 	Instance *instance;
 	stringstream fileName;
