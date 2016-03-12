@@ -2,69 +2,103 @@
 
 #include "customer.h"
 
-class Node
+typedef struct Node
 {
 	public:
 	int data;
 	Node *next;
-	
-	Node(int data)
-	{
-		this->data = data;
-		next = NULL;
-	}
-	
-};
-class Schedule
+} Node;
+
+Node *createNode(int data) {
+	Node *node = (Node *)malloc(sizeof(Node));
+	node->data = data;
+	node->next = NULL;
+
+	return node;
+}
+typedef struct Schedule
 {
 	public:
 	Node *head;
 	Node *tail;
-	Node *iterator;
 	int load;
 	float time;
-	
-	Schedule()
+
+} Schedule;
+
+Schedule *createSchedule()
+{
+	Schedule *schedule = (Schedule *)malloc(sizeof(Schedule));
+	schedule->head = createNode(0);
+	schedule->tail = createNode(0);
+	schedule->head->next = schedule->tail;
+	schedule->load = 0;
+	schedule->time = 0;
+
+	return schedule;
+}
+
+double insertCost(Node *node, Customer *customer, double **distanceMatrix)
+{
+	return distanceMatrix[node->data][customer->i] + distanceMatrix[node->next->data][customer->i] - distanceMatrix[node->data][node->next->data];
+}
+
+void insert(Schedule *schedule, Customer *customer, double **distanceMatrix)
+{
+	double best = insertCost(schedule->head, customer, distanceMatrix);
+	Node *bestNode = schedule->head;
+
+	for(Node *iter = schedule->head; iter != schedule->tail; iter = iter->next)
 	{
-		head = new Node(0);
-		tail = new Node(0);
-		load = 0;
-		time = 0;
-		head->next = tail;
-		iterator = head;
-	}
-	
-	void insert(Customer *customer, float **distanceMatrix)
-	{
-		int data = customer->i; // data is the ID of the customer
-		time += distanceMatrix[data][iterator->data]; // add travel time to total time
-		time += customer->d; // add service duration to total time
-		load += customer->q; // add demand to total load
-		Node *newbie = new Node(data);
-		newbie->next = iterator->next;
-		iterator->next = newbie;
-		iterator = iterator->next;
-	}
-	
-	string print()
-	{
-		stringstream ss;
-		ss << head->data;
-		ss<<" ";
-		//cout<<head->data<<' ';
-		for(Node *tmp = head->next; tmp != tail; tmp = tmp->next)
+		double cost = insertCost(iter, customer, distanceMatrix);
+		if(cost < best)
 		{
-			
-			ss<<tmp->data;
-			ss<<" ";
-			//cout<<tmp->data<<' ';
+			best = cost;
+			bestNode = iter;
 		}
-		ss<<tail->data;
-		//cout<<tail->data<<endl;
-		return ss.str();
 	}
-	
-	
-	
-};
+	int data = customer->i; // data is the ID of the customer
+	Node *newbie = createNode(data); // new node to be inserted
+	newbie->next = bestNode->next;
+	bestNode->next = newbie;
+	schedule->time += best; // add travel time to total time
+	schedule->time += customer->d; // add service duration to total time
+	schedule->load += customer->q; // add demand to total load
+}
+
+
+void insertWithoutBest(Schedule *schedule, Customer *customer, double **distanceMatrix)
+{
+	double best = insertCost(schedule->head, customer, distanceMatrix);
+	Node *bestNode = schedule->head;
+
+	for(Node *iter = schedule->head; iter->next != schedule->tail; iter = iter->next);
+	int data = customer->i; // data is the ID of the customer
+	Node *newbie = createNode(data); // new node to be inserted
+	newbie->next = bestNode->next;
+	bestNode->next = newbie;
+	schedule->time += best; // add travel time to total time
+	schedule->time += customer->d; // add service duration to total time
+	schedule->load += customer->q; // add demand to total load
+
+}
+string printSchedule(Schedule *schedule)
+{
+	stringstream ss;
+	ss << schedule->head->data;
+	ss<<" ";
+	//cout<<head->data<<' ';
+	for(Node *tmp = schedule->head->next; tmp != schedule->tail; tmp = tmp->next)
+	{
+
+		ss<<tmp->data;
+		ss<<" ";
+		//cout<<tmp->data<<' ';
+	}
+	ss<<schedule->tail->data;
+	//cout<<tail->data<<endl;
+	return ss.str();
+}
+
+
 

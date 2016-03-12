@@ -7,17 +7,17 @@
 
 typedef struct Truck
 {
-	int id, D, Q, t; // id, capacity and time of the vehicle
+	int id, Q, t; // id, capacity and time of the vehicle
 	int *currentLoad; // current load for each day
-	Schedule *schedule; // schedule array for each day
-	
+	Schedule **schedule; // schedule array for each day
+
 } Truck;
 
 typedef struct Preseller
 {
-	int id, D, Q, t;
+	int id, D, t;
 	int *currentTime;
-	Schedule *schedule;
+	Schedule **schedule;
 } Preseller;
 
 
@@ -27,18 +27,23 @@ Truck *createTruck(int id, int Q, int t) // create new truck
 	truck->id = id;
 	truck->Q = Q;
 	truck->t = t;
-	truck->schedule = new Schedule[t]; // schedules for day t
+	truck->schedule = new Schedule *[t]; // schedules for day t
+	for(int i=0; i<t; i++)
+		truck->schedule[i] = createSchedule();
+
+
 	return truck;
 }
 
-Preseller *createPreseller(int id, int D, int Q, int t) // create new preseller
+Preseller *createPreseller(int id, int D, int t) // create new preseller
 {
 	Preseller *preseller = (Preseller *)malloc(sizeof(Preseller));
 	preseller->id = id;
 	preseller->D = D;
-	preseller->Q = Q;
 	preseller->t = t;
-	preseller->schedule = new Schedule[t];
+	preseller->schedule = new Schedule *[t];
+	for(int i=0; i<t; i++)
+		preseller->schedule[i] = createSchedule();
 
 	return preseller;
 }
@@ -46,12 +51,10 @@ Preseller *createPreseller(int id, int D, int Q, int t) // create new preseller
 
 string printSchedule(Truck *truck)
 {
-	
+
 	stringstream ss;
 	ss<<"Truck ";
 	ss<<truck->id;
-	ss<<": D = ";
-	ss<<truck->D;
 	ss<<" Q = ";
 	ss<<truck->Q;
 	ss<<"\n";
@@ -61,11 +64,11 @@ string printSchedule(Truck *truck)
 		ss<<"Day[";
 		ss<<i;
 		ss<<"](";
-		ss<<truck->schedule[i].load;
-		if(truck->schedule[i].load > truck->Q)
+		ss<<truck->schedule[i]->load;
+		if(truck->schedule[i]->load > truck->Q)
 			ss<<"*";
 		ss<<")    ";
-		ss<<truck->schedule[i].print();
+		ss<<printSchedule(truck->schedule[i]);
 		ss<<"\n";
 		//std::cout<<endl;
 	}
@@ -74,51 +77,47 @@ string printSchedule(Truck *truck)
 
 string printSchedule(Preseller *preseller)
 {
-	
+
 	stringstream ss;
-	ss<<"Preseller ";
-	ss<<preseller->id;
-	ss<<": D = ";
-	ss<<preseller->D;
-	ss<<" Q = ";
-	ss<<preseller->Q;
-	ss<<"\n";
+	ss<<"Preseller "<<preseller->id<<": D = "<<preseller->D<<"\n";
 	for(int i=0; i<preseller->t; i++)
 	{
 		//printf("Day[%d]\n", i);
-		ss<<"Day[";
+		/*ss<<"Day[";
 		ss<<i;
 		ss<<"](";
-		ss<<preseller->schedule[i].time;
-		if(preseller->schedule[i].time > preseller->D)
-			ss<<"*";
-		ss<<")    ";
-		ss<<preseller->schedule[i].print();
-		ss<<"\n";
+		ss<<preseller->schedule[i]->time;
+		if(preseller->schedule[i]->time > preseller->D)
+			ss<<"*";*/
+        ss<<(double)((double)preseller->schedule[i]->time/(double)preseller->D);
+        ss<<endl;
+		/*ss<<")    ";
+		ss<<printSchedule(preseller->schedule[i]);
+		ss<<"\n";*/
 		//std::cout<<endl;
 	}
 	return ss.str();
 }
 
 
-void addToSchedule(Truck *truck, char *days, int t, Customer *customer, float **distanceMatrix){
+void addToSchedule(Truck *truck, char *days, int t, Customer *customer, double **distanceMatrix){
 /* days is the binary representation of customer's one of possible
  * schedules. t is the number of days in the instance. */
 	for(int i=0; i<t; i++)
 		if(days[i] == '1')
-			truck->schedule[i].insert(customer, distanceMatrix); // add customer's id to ith day.
-			
+			insert(truck->schedule[i], customer, distanceMatrix); // add customer's id to ith day.
+
 
 }
 
-void addToSchedule(Preseller *preseller, char *days, int t, Customer *customer, float **distanceMatrix) // same function for preseller
+void addToSchedule(Preseller *preseller, char *days, int t, Customer *customer, double **distanceMatrix) // same function for preseller
 {
 
 	for(int i=0; i<t; i++)
 		if(days[i] == '1')
-			preseller->schedule[i].insert(customer, distanceMatrix); 
-		
-	
-	
-		
+			insert(preseller->schedule[i], customer, distanceMatrix);
+
+
+
+
 }
