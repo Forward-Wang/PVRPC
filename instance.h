@@ -61,7 +61,7 @@ Preseller *minPreseller(Instance *instance, int day)
 
 void printInstance(Instance *instance)
 {
-	printf("%d %d %d %d %d\n%d %d", instance->id, instance->type, instance->m, instance->n, instance->t, instance->D, instance->Q);
+	printf("%d %d %d %d %d %d %d\n", instance->id, instance->type, instance->m, instance->n-1, instance->t, instance->D, instance->Q);
 
 	for(int i=1; i<instance->n; i++)
 		printCustomer(instance->customers[i]);

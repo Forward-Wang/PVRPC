@@ -108,7 +108,7 @@ Instance *readFromFile(const char *prefix, int instanceId)
 	fscanf(file, "%d %d %d %d\n", &type, &m, &n, &t);
 	fscanf(file, "%d %d\n", &D, &Q);
 	//printf("%d %d %d %d\n", type, m, n, t);
-	instance = createInstance(instanceId, type, m, n, t, D, Q);
+	instance = createInstance(instanceId, type, m, n, t, D/10, Q);
 
 
 	int i, d, q, f, a;
@@ -143,7 +143,7 @@ void printToFile(Instance *instance, const char *prefix, int instanceId)
 	stringstream fileName;
 	fileName << prefix << instanceId << ".txt";
 	FILE *file = fopen(fileName.str().c_str(), "w");
-	fprintf(file, "%d %d %d %d\n%d %d\n", instance->type, instance->m, instance->n-1 /*excluding depot*/, instance->t, instance->D, instance->Q);
+	fprintf(file, "%d %d %d %d %d %d\n", instance->type, instance->m, instance->n-1 /*excluding depot*/, instance->t, instance->D, instance->Q);
 
 	Customer *customer = instance->customers[0];
 	int i = customer->i;

@@ -16,19 +16,20 @@ using namespace std;
 
 int main ()
 {
-	const char *inputPrefix = "ins"; // prefix of the instance files.
-	const char *outputPrefix = "ins";
+	const char *inputPrefix = "inst"; // prefix of the instance files.
+	const char *outputPrefix = "inst";
 
 	const int nbInstances = 42;
-	for(int i=1; i<=42; i++)
+	for(int i=1; i<=nbInstances; i++)
 	{
 		Instance *instance = readFromFile(inputPrefix, i); // read instance from file
+		
 		solveInstance(instance);
 		for(int i=0; i<instance->m; i++)
         {
 
             //cout<<printSchedule(instance->trucks[i]);
-            cout<<printSchedule(instance->presellers[i]);
+            //cout<<printSchedule(instance->presellers[i]);
 
         }
        /* for(int i=0; i<instance->n; i++)
